@@ -51,7 +51,7 @@ shadowJar {
 remapJar {
     dependsOn ":fabric:shadowJar"
     archiveFileName = "${archivesBaseName}-${project.version}-${rootProject.minecraft_version}-forge.jar"
-    buildDir = "${rootProject.rootDir}/.finalbuilds"
+    //buildDir = "${rootProject.rootDir}/.finalbuilds"
     inputFile.set shadowJar.archiveFile
     dependsOn shadowJar
     archiveClassifier.set(null)
