@@ -1,5 +1,6 @@
 package io.github.jumperonjava.blockatlas.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
@@ -11,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(GameMenuScreen.class)
 public abstract class GameMenuScreenMixin extends Screen {
@@ -32,8 +32,8 @@ public abstract class GameMenuScreenMixin extends Screen {
         return 98;
         else return i;
     }
-    @Inject(method = "initWidgets", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE",shift = At.Shift.BEFORE,target = "Lnet/minecraft/client/gui/widget/GridWidget;refreshPositions()V"))
-    void addServersButton(CallbackInfo ci, GridWidget gridWidget, GridWidget.Adder adder, Text text){
+    @Inject(method = "initWidgets", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Lnet/minecraft/client/gui/widget/GridWidget;refreshPositions()V"))
+    void addServersButton(CallbackInfo ci, @Local(ordinal = 0) GridWidget.Adder adder){
         if(!this.client.isInSingleplayer())
             adder.add(new ButtonWidget.Builder(Text.translatable("blockatlas.switch"),(b)-> {
                 //new MultiplayerScreen(new TitleScreen());
